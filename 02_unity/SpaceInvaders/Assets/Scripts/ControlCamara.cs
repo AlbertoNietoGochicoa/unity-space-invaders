@@ -27,6 +27,8 @@ public class ControlCamara : MonoBehaviour
 		// Tecla: Derecha
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			alien.transform.Translate (Vector2.right * velocidad * Time.deltaTime);
+		
+		
 		}
 	}
 }

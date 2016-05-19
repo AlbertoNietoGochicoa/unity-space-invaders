@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ControlNave : MonoBehaviour
 {
+	public GameObject UI;
 
 	// Velocidad a la que se desplaza la nave (medido en u/s)
 	private float velocidad = 20f;
@@ -55,6 +56,9 @@ public class ControlNave : MonoBehaviour
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			disparar ();
 		}
+		//colision
+
+
 	}
 
 	void disparar ()
@@ -71,5 +75,38 @@ public class ControlNave : MonoBehaviour
 		// Lanzarlo
 		d.AddForce (Vector2.up * fuerza, ForceMode2D.Impulse);	
 	}
+
+
+	void OnCollisionEnter2D (Collision2D coll)
+	{
+		// Detectar la colisión entre el alien y otros elementos
+		//UI.SetActive (true);
+
+		// Necesitamos saber contra qué hemos chocado
+		if (coll.gameObject.tag == "alien") {
+
+
+			// El alien desaparece (hay que añadir un retraso, si no, no se oye la explosión)
+
+			// Lo ocultamos...
+			GetComponent<Renderer> ().enabled = false;
+			GetComponent<Collider2D> ().enabled = false;
+
+			// ... y lo destruímos al cabo de 5 segundos, para dar tiempo al efecto de sonido
+			Destroy (gameObject,5f);
+
+			var aliens = GameObject.FindGameObjectsWithTag("alien");
+
+			foreach (GameObject alien in aliens) {
+				alien.GetComponent<ControlAlien>().enabled = false;
+			}
+
+			UI.SetActive (true);
+		
+
+
+		}
+	}
+
 
 }

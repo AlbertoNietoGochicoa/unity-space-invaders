@@ -8,6 +8,9 @@ public class ControlAlien : MonoBehaviour
 
 	// Por defecto, 100 puntos por cada alien
 	public int puntos = 100;
+	//variable para detectar cuando han chocado con la nave
+	public bool chocado=false;
+
 
 	// Use this for initialization
 	void Start ()
@@ -19,7 +22,24 @@ public class ControlAlien : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		// Calculamos la anchura visible de la cámara en pantalla
+		float distanciaHorizontal = Camera.main.orthographicSize * Screen.width / Screen.height;
+
+		// Calculamos el límite izquierdo y el derecho de la pantalla
+		float limiteIzq = -1.0f * distanciaHorizontal;
+		float limiteDer = 1.0f * distanciaHorizontal;
+
+
+		//moviendo marcianitos
+
+		if (this.transform.position.x < limiteDer) {
+			this.transform.position = new Vector2 (this.transform.position.x + 0.4f, this.transform.position.y);
+		} else {
+			this.transform.position = new Vector2 (limiteIzq, this.transform.position.y - 1.0f);
+		}
+		if (chocado) {
+			
+		}
 	}
 
 	void OnCollisionEnter2D (Collision2D coll)
@@ -46,6 +66,15 @@ public class ControlAlien : MonoBehaviour
 
 			// ... y lo destruímos al cabo de 5 segundos, para dar tiempo al efecto de sonido
 			Destroy (gameObject, 5f);
-		}
+		}else if (coll.gameObject.tag=="nave"){
+			//chocamos contra la nave
+
+			// Sonido de explosión
+			GetComponent<AudioSource> ().Play ();
+
+			//paramos los marcianos
+			chocado=true;
+		
 	}
+}
 }

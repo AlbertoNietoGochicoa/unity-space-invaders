@@ -94,8 +94,10 @@ public class ControlAlien : MonoBehaviour
 
 			//paramos los marcianos
 			chocado=true;
+			if(SceneManager.GetActiveScene().name("nivel1")){
 			SceneManager.LoadScene ("Nivel1");
-
+			}else if(SceneManager.GetActiveScene().name("nivel2")){
+				SceneManager.LoadScene ("Nivel2");
 
 		
 	}

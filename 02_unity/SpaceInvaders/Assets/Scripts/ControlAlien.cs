@@ -18,10 +18,12 @@ public class ControlAlien : MonoBehaviour
 		// Localizamos el objeto que contiene el marcador
 		marcador = GameObject.Find ("Marcador");
 	}
-	
+
 	// Update is called once per frame
 	void Update ()
 	{
+		this.gameObject.GetComponent<Renderer>().material.color = Color.white;
+
 		// Calculamos la anchura visible de la cámara en pantalla
 		float distanciaHorizontal = Camera.main.orthographicSize * Screen.width / Screen.height;
 

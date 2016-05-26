@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 
 public class ControlMarcador : MonoBehaviour
 {
@@ -23,8 +25,16 @@ public class ControlMarcador : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		// Actualizamos el marcador
-		t.text = "Puntos: " + puntos.ToString () + "\n";
+		if (SceneManager.GetActiveScene ().name == ("Nivel1")) {
+			
+			// Actualizamos el marcador
+			t.text = "Nivel 1 \n" +
+				"Puntos: " + puntos.ToString () + "\n";
+		} else {
+			// Actualizamos el marcador
+			t.text = "Nivel 2 \n" +
+				"Puntos: " + puntos.ToString () + "\n";
+		}
 	}
 
 }

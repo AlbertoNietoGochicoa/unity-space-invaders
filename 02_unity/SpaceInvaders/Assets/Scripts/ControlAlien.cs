@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ControlAlien : MonoBehaviour
 {
 	// Conexión al marcador, para poder actualizarlo
 	public GameObject marcador;
+
+	//Variable para contar los marcianos muertos
+	public static int muertos=28;
 
 	// Por defecto, 100 puntos por cada alien
 	public int puntos = 100;
@@ -22,7 +26,6 @@ public class ControlAlien : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		this.gameObject.GetComponent<Renderer>().material.color = Color.white;
 
 		// Calculamos la anchura visible de la cámara en pantalla
 		float distanciaHorizontal = Camera.main.orthographicSize * Screen.width / Screen.height;
@@ -33,14 +36,27 @@ public class ControlAlien : MonoBehaviour
 
 
 		//moviendo marcianitos
-
-		if (this.transform.position.x < limiteDer) {
-			this.transform.position = new Vector2 (this.transform.position.x + 0.4f, this.transform.position.y);
+		if(SceneManager.GetActiveScene().name==("Nivel1")){
+			
+			if (this.transform.position.x < limiteDer) {
+			this.transform.position = new Vector2 (this.transform.position.x + 0.1f, this.transform.position.y);
 		} else {
 			this.transform.position = new Vector2 (limiteIzq, this.transform.position.y - 1.0f);
 		}
-		if (chocado) {
-			
+	
+		} else {
+
+			if (this.transform.position.x < limiteDer) {
+				this.transform.position = new Vector2 (this.transform.position.x + 0.3f, this.transform.position.y);
+			} else {
+				this.transform.position = new Vector2 (limiteIzq, this.transform.position.y - 1.0f);
+			}
+
+		}
+		//Controlamos cuando se acaban los marcianos
+		if(muertos==0){
+			muertos = 28;
+			SceneManager.LoadScene ("Nivel2");
 		}
 	}
 
@@ -50,6 +66,8 @@ public class ControlAlien : MonoBehaviour
 
 		// Necesitamos saber contra qué hemos chocado
 		if (coll.gameObject.tag == "disparo") {
+			//Matamos un marciano
+			muertos -=1;
 
 			// Sonido de explosión
 			GetComponent<AudioSource> ().Play ();
@@ -76,6 +94,9 @@ public class ControlAlien : MonoBehaviour
 
 			//paramos los marcianos
 			chocado=true;
+			SceneManager.LoadScene ("Nivel1");
+
+
 		
 	}
 }
